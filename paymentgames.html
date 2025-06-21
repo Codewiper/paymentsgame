@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Planet: Rapid Response</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      overflow: hidden;
+      position: relative;
+      color: #222;
+    }
+    #intro-overlay {
+      position: fixed;
+      top:0; left:0; width:100vw; height:100vh;
+      background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .comic-container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-bottom: 20px;
+    }
+
+    .comic-character {
+      position: relative;
+      width: 150px;
+    }
+
+    .comic-character img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .speech-bubble {
+      position: absolute;
+      background: #fff;
+      border: 3px solid #f8b500;
+      border-radius: 15px;
+      padding: 10px 15px;
+      font-size: 18px;
+      width: 160px;
+      top: -250px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px;
+      border-style: solid;
+      border-color: #fff transparent transparent transparent;
+    }
+
+    .tagline {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    #background-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 2;  /* raised from 1 */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    #game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 30vw;
+      width: 50vw;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.95);
+      margin: 5vh auto;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      z-index: 10;
+      position: relative;
+    }
+    .character {
+      font-size: 24px;
+      margin: 20px;
+    }
+    .question-box {
+      background: #fff3e0;
+      border: 4px dashed #ffb74d;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 60%;
+      border-radius: 20px;
+      font-size: 20px;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    button {
+      background-color: #4dd0e1;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #00acc1;
+      transform: scale(1.1);
+    }
+    .feedback {
+      font-size: 20px;
+      margin-top: 20px;
+      height: 40px;
+      font-weight: bold;
+    }
+    .score, .timer {
+      font-size: 18px;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    /* Jelly shapes */
+    .jelly {
+      position: absolute;
+      bottom: -70px;
+      border-radius: 30% 70% 70% 30% / 60% 30% 70% 40%;
+      animation-name: floatJelly, wobbleJelly;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+      animation-direction: normal, alternate;
+      z-index: 0;
+    }
+    @keyframes floatJelly {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-110vh) rotate(360deg); }
+    }
+    @keyframes wobbleJelly {
+      0% { border-radius: 30% 70% 70% 30% / 60% 30% 70% 40%; }
+      50% { border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%; }
+      100% { border-radius: 30% 70% 70% 30% / 60% 30% 70% 40%; }
+    }
+
+    /* Floating icons and text */
+    .icon {
+  position: absolute;
+  bottom: -40px;
+  font-weight: 700;
+  animation-name: floatIcon;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  white-space: nowrap;
+  user-select: none;
+  color: #ffdd57;
+  text-shadow: 2px 2px 5px #0009;
+  z-index: 5;  /* increase from 0 to 5 */
+}
+
+    @keyframes floatIcon {
+      0% { transform: translateX(0) translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(20vw) translateY(-120vh); opacity: 0; }
+    }
+
+    @keyframes breath {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+    .breathing {
+      animation: breath 2s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+  0% { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+  25% { background: linear-gradient(135deg, #004e92, #000428); }
+  50% { background: linear-gradient(135deg, #0575e6, #021b79); }
+  75% { background: linear-gradient(135deg, #43cea2, #185a9d); }
+  100% { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+}
+
+    body {
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background-size: 400% 400%;
+  animation: backgroundShift 20s infinite alternate;
+  overflow: hidden;
+  position: relative;
+  color: #222;
+}
+
+    
+  </style>
+</head>
+<body>
+  <div id="intro-overlay">
+    <div class="comic-container">
+      <div class="comic-character">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><circle cx='75' cy='75' r='70' fill='%23f9d5a7' stroke='%23655e3e' stroke-width='5'/><circle cx='55' cy='70' r='15' fill='%23000'/><circle cx='95' cy='70' r='15' fill='%23000'/><path d='M 50 105 Q 75 130 100 105' stroke='%23000' stroke-width='6' fill='none' stroke-linecap='round'/></svg>" alt="Mayor" />
+        <div class="speech-bubble">Hello Mayor! Your citizens need your help to make payments...
+        Quick! Help them choose the right payment method.</div>
+      </div>
+    </div>
+    <div class="tagline">Be the Mayor. Solve the Payments. Beat the Clock.</div>
+  </div>
+
+  <div id="background-overlay"></div>
+
+  <div id="game-container" style="display:none;">
+    <div class="character">🧒 "What's the best payment option?"</div>
+    <div class="question-box" id="question-text"></div>
+    <div class="buttons" id="answers-container"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="score" id="score-display">Score: 0 | High Score: 0</div>
+    <div class="timer" id="timer-display">Time left: 60s</div>
+    <button id="restart-button" style="margin-top: 20px; display:none;">Restart Game</button>
+  </div>
+
+  <script>
+    const introOverlay = document.getElementById('intro-overlay');
+    const gameContainer = document.getElementById('game-container');
+    const questionText = document.getElementById('question-text');
+    const answersContainer = document.getElementById('answers-container');
+    const feedback = document.getElementById('feedback');
+    const scoreDisplay = document.getElementById('score-display');
+    const timerDisplay = document.getElementById('timer-display');
+    const restartButton = document.getElementById('restart-button');
+    const backgroundOverlay = document.getElementById('background-overlay');
+
+    const fullQuestionBank  = [
+      { q: "Which payment method is fastest for large sums?", options: ["ACH", "Wire Transfer", "Check", "Debit Card"], answer: "Wire Transfer" },
+      { q: "What payment method is best for recurring bills?", options: ["ACH", "Cash", "Credit Card", "Wire Transfer"], answer: "ACH" },
+      { q: "Which is safest for online purchases?", options: ["Credit Card", "Check", "Cash", "Debit Card"], answer: "Credit Card" },
+      { q: "Best payment for same-day transfers?", options: ["Wire Transfer", "RTP", "ACH", "Check"], answer: "RTP" },
+      { q: "Which payment type is least likely to have fees?", options: ["Cash", "Credit Card", "Wire Transfer", "Debit Card"], answer: "Cash" },
+      { q: "Which payment method allows balance transfers?", options: ["Credit Card", "ACH", "Check", "Debit Card"], answer: "Credit Card" },
+      { q: "What payment method often requires physical processing?", options: ["Check", "ACH", "Wire Transfer", "RTP"], answer: "Check" },
+      { q: "Fastest method for peer-to-peer payments?", options: ["RTP", "Check", "Wire Transfer", "ACH"], answer: "RTP" },
+      { q: "Payment option that uses a network for transactions?", options: ["Debit Card", "Cash", "Check", "Wire Transfer"], answer: "Debit Card" },
+      { q: "Which payment method is electronic and guaranteed?", options: ["Wire Transfer", "Cash", "Check", "ACH"], answer: "Wire Transfer" },
+      { q: "Which method is ideal for paying employees in bulk?", options: ["ACH", "Cash", "Check", "Credit Card"], answer: "ACH" },
+      { q: "What method offers real-time settlement?", options: ["RTP", "ACH", "Wire Transfer", "Check"], answer: "RTP" },
+      { q: "Best for sending money internationally?", options: ["Wire Transfer", "ACH", "Cash", "Check"], answer: "Wire Transfer" },
+      { q: "Which method usually comes with overdraft protection?", options: ["Credit Card", "Cash", "Check", "Debit Card"], answer: "Credit Card" },
+      { q: "What payment type is easiest to cancel before it's processed?", options: ["ACH", "Check", "Wire Transfer", "RTP"], answer: "ACH" },
+      { q: "Which method is most traceable for audit purposes?", options: ["Wire Transfer", "Cash", "Check", "Credit Card"], answer: "Wire Transfer" },
+      { q: "What method typically includes buyer protection features?", options: ["Credit Card", "Check", "Cash", "ACH"], answer: "Credit Card" },
+      { q: "Which is least suitable for online subscriptions?", options: ["Cash", "ACH", "Credit Card", "Debit Card"], answer: "Cash" },
+      { q: "Which method is commonly used for utilities and rent?", options: ["ACH", "Wire Transfer", "Check", "Cash"], answer: "ACH" },
+      { q: "Which is not a digital payment method?", options: ["Cash", "ACH", "Credit Card", "Wire Transfer"], answer: "Cash" }
+
+    ];
+
+    const kidFriendlyQuestions = [
+  { q: "Which way is the fastest to send a lot of money?", options: ["ACH", "Wire Transfer", "Check", "Debit Card"], answer: "Wire Transfer" },
+  { q: "Which way is best to pay your bills every month automatically?", options: ["ACH", "Cash", "Credit Card", "Wire Transfer"], answer: "ACH" },
+  { q: "What’s the safest way to buy something online?", options: ["Credit Card", "Check", "Cash", "Debit Card"], answer: "Credit Card" },
+  { q: "Which payment gets there the same day?", options: ["Wire Transfer", "RTP", "ACH", "Check"], answer: "RTP" },
+  { q: "Which one usually doesn’t cost any extra fees?", options: ["Cash", "Credit Card", "Wire Transfer", "Debit Card"], answer: "Cash" },
+  { q: "Which one lets you move money from one card to another?", options: ["Credit Card", "ACH", "Check", "Debit Card"], answer: "Credit Card" },
+  { q: "Which one do you have to put in the mail or hand to someone?", options: ["Check", "ACH", "Wire Transfer", "RTP"], answer: "Check" },
+  { q: "What’s the fastest way to send money to a friend?", options: ["RTP", "Check", "Wire Transfer", "ACH"], answer: "RTP" },
+  { q: "Which one uses a special network when you pay in stores?", options: ["Debit Card", "Cash", "Check", "Wire Transfer"], answer: "Debit Card" },
+  { q: "Which one is electronic and always goes through?", options: ["Wire Transfer", "Cash", "Check", "ACH"], answer: "Wire Transfer" },
+  { q: "Which way do companies use to pay many workers at once?", options: ["ACH", "Cash", "Check", "Credit Card"], answer: "ACH" },
+  { q: "Which one sends money right away, with no wait?", options: ["RTP", "ACH", "Wire Transfer", "Check"], answer: "RTP" },
+  { q: "Which one is best for sending money to another country?", options: ["Wire Transfer", "ACH", "Cash", "Check"], answer: "Wire Transfer" },
+  { q: "Which one usually lets you spend even if you don’t have enough money right now?", options: ["Credit Card", "Cash", "Check", "Debit Card"], answer: "Credit Card" },
+  { q: "Which way can you cancel more easily if you made a mistake?", options: ["ACH", "Check", "Wire Transfer", "RTP"], answer: "ACH" },
+  { q: "Which one is best when you need to track every dollar sent?", options: ["Wire Transfer", "Cash", "Check", "Credit Card"], answer: "Wire Transfer" },
+  { q: "Which one helps protect you if something goes wrong when you buy online?", options: ["Credit Card", "Check", "Cash", "ACH"], answer: "Credit Card" },
+  { q: "Which one is not a good idea for online games or shows?", options: ["Cash", "ACH", "Credit Card", "Debit Card"], answer: "Cash" },
+  { q: "Which one do people often use to pay for rent or electricity?", options: ["ACH", "Wire Transfer", "Check", "Cash"], answer: "ACH" },
+  { q: "Which of these is not a way to pay using a phone or computer?", options: ["Cash", "ACH", "Credit Card", "Wire Transfer"], answer: "Cash" }
+];
+
+    // Shuffle and select 10
+    const questions = kidFriendlyQuestions
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 10);
+    
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 60;
+    let highScore = 0;
+
+    function loadQuestion() {
+      if (currentQuestionIndex >= questions.length) {
+        endGame();
+        return;
+      }
+      const currentQ = questions[currentQuestionIndex];
+      questionText.innerText = currentQ.q;
+      answersContainer.innerHTML = '';
+      currentQ.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = () => selectAnswer(opt);
+        answersContainer.appendChild(btn);
+      });
+      feedback.innerText = '';
+    }
+
+    function selectAnswer(selected) {
+      const currentQ = questions[currentQuestionIndex];
+      if (selected === currentQ.answer) {
+        feedback.innerText = "Correct!";
+        score += 10;
+      } else {
+        feedback.innerText = "Wrong!";
+      }
+      scoreDisplay.innerText = `Score: ${score} | High Score: ${highScore}`;
+      currentQuestionIndex++;
+      setTimeout(() => {
+        if(timeLeft > 0 && currentQuestionIndex < questions.length){
+          loadQuestion();
+        } else {
+          endGame();
+        }
+      }, 800);
+    }
+
+    function startTimer() {
+      timeLeft = 60;
+      timerDisplay.innerText = `Time left: ${timeLeft}s`;
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.innerText = `Time left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function endGame() {
+      clearInterval(timer);
+      feedback.innerText = `Game Over! Your score: ${score}`;
+      if(score > highScore) {
+        highScore = score;
+      }
+      scoreDisplay.innerText = `Score: ${score} | High Score: ${highScore}`;
+      answersContainer.innerHTML = '';
+      restartButton.style.display = 'inline-block';
+      restartButton.focus();
+    }
+
+    restartButton.onclick = () => {
+      startIntro();
+    };
+
+    function startIntro() {
+      currentQuestionIndex = 0;
+      score = 0;
+      scoreDisplay.innerText = `Score: 0 | High Score: ${highScore}`;
+      timerDisplay.innerText = `Time left: 60s`;
+      feedback.innerText = '';
+      restartButton.style.display = 'none';
+      gameContainer.style.display = 'none';
+      introOverlay.style.display = 'flex';
+      introOverlay.style.opacity = '1';
+      setTimeout(startGameAfterIntro, 10000);
+    }
+
+    function startGameAfterIntro() {
+      introOverlay.style.opacity = '0';
+      setTimeout(() => {
+        introOverlay.style.display = 'none';
+        gameContainer.style.display = 'flex';
+        loadQuestion();
+        startTimer();
+      }, 1000);
+    }
+
+    startIntro();
+
+    // Floating Jellies with vibrant colors
+    const jellyColors = ['#FF5F6D', '#FFC371', '#6A82FB', '#FC5C7D', '#FFD700', '#40E0D0', '#FF69B4'];
+    function createJelly() {
+      const jelly = document.createElement('div');
+      jelly.classList.add('jelly');
+      const size = 30 + Math.random() * 40;
+      jelly.style.width = `${size}px`;
+      jelly.style.height = `${size}px`;
+      jelly.style.left = `${Math.random() * 100}vw`;
+      jelly.style.background = jellyColors[Math.floor(Math.random() * jellyColors.length)];
+      jelly.style.animationDuration = `${10 + Math.random() * 15}s, ${2 + Math.random() * 2}s`;
+      jelly.style.opacity = 0.8;
+      backgroundOverlay.appendChild(jelly);
+      setTimeout(() => backgroundOverlay.removeChild(jelly), 25000);
+    }
+    setInterval(createJelly, 1500);
+
+    // Floating payment-related icons (text)
+    const floatingWords = [
+      "Capital One",
+      "Enterprise Payments",
+      "Payment Exchange platform",
+      "ACH",
+      "Wires",
+      "Checks",
+      "RTP",
+      "Debit",
+      "Balance Transfer"
+    ];
+    function createFloatingIcon() {
+      const icon = document.createElement('div');
+      icon.className = 'icon';
+      icon.style.left = Math.random() * 80 + 'vw';
+      icon.style.fontSize = `${12 + Math.random() * 10}px`;
+      icon.style.animationDuration = `${10 + Math.random() * 15}s`;
+      icon.style.animationDelay = `${Math.random() * 10}s`;
+      icon.innerText = floatingWords[Math.floor(Math.random() * floatingWords.length)];
+      backgroundOverlay.appendChild(icon);
+      setTimeout(() => backgroundOverlay.removeChild(icon), 25000);
+    }
+    setInterval(() => {
+      createFloatingIcon();
+    }, 2000);
+
+    
+  </script>
+</body>
+</html>
