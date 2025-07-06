@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Payments Work - For Kids</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .payment-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .payment-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .stage {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .stage.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .money-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s linear forwards;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .analogy-icon {
+            transition: all 0.3s ease;
+        }
+        .analogy-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        .wiggle {
+            animation: wiggle 1s ease-in-out infinite;
+        }
+        @keyframes wiggle {
+            0%, 7% { transform: rotateZ(0); }
+            15% { transform: rotateZ(-15deg); }
+            20% { transform: rotateZ(10deg); }
+            25% { transform: rotateZ(-10deg); }
+            30% { transform: rotateZ(6deg); }
+            35% { transform: rotateZ(-4deg); }
+            40%, 100% { transform: rotateZ(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <div class="flex justify-center mb-6">
+                <img src="images/money-mascot-hero.png" alt="Friendly Money Mascot" class="w-32 h-32 bounce">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-purple-800 mb-4">How Money Moves! 💰</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Join our friendly money mascot to discover how different payment methods work!</p>
+            <div class="flex justify-center mt-4">
+                <img src="images/payment-journey-banner.png" alt="Payment Journey Banner" class="w-64 h-50">
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            <!-- Check Payment Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('check')">
+                <div class="h-32 bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center">
+                    <img src="images/check-mailman.png" alt="Friendly Mailman with Check" class="w-24 h-24 wiggle">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-file-invoice-dollar text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Check 📝</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like mailing a letter with money inside!</p>
+                    <div class="flex items-center text-sm text-blue-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACH Payment Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('ach')">
+                <div class="h-32 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
+                    <img src="images/ach-robot.png" alt="Friendly Robot Managing Automatic Payments" class="w-24 h-24 bounce">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-exchange-alt text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">ACH 🤖</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like your school's lunch account auto-reload!</p>
+                    <div class="flex items-center text-sm text-green-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wire Transfer Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('wire')">
+                <div class="h-32 bg-gradient-to-r from-yellow-100 to-yellow-200 flex items-center justify-center">
+                    <img src="images/wire-superhero.png" alt="Superhero Money Flying Fast" class="w-24 h-24 wiggle">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-bolt text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Wire Transfer ⚡</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like sending money by telegram - fast but costs more!</p>
+                    <div class="flex items-center text-sm text-yellow-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RTP Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('rtp')">
+                <div class="h-32 bg-gradient-to-r from-red-100 to-red-200 flex items-center justify-center">
+                    <img src="images/rtp-rocket.png" alt="Money Rocket Ship" class="w-24 h-24 bounce">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-rocket text-red-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">RTP 🚀</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like instant messaging for money!</p>
+                    <div class="flex items-center text-sm text-red-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balance Transfer Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('balance')">
+                <div class="h-32 bg-gradient-to-r from-purple-100 to-purple-200 flex items-center justify-center">
+                    <img src="images/balance-juggler.png" alt="Friendly Character Juggling Toy Boxes" class="w-24 h-24 wiggle">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-random text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Balance Transfer 🎪</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like moving toys between your toy boxes!</p>
+                    <div class="flex items-center text-sm text-purple-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debit Card Card -->
+            <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer" onclick="showPaymentJourney('debit')">
+                <div class="h-32 bg-gradient-to-r from-pink-100 to-pink-200 flex items-center justify-center">
+                    <img src="images/debit-piggy.png" alt="Magical Piggy Bank with Card" class="w-24 h-24 bounce">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-credit-card text-pink-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Debit Card 🐷</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Like using a magic card that takes money directly from your piggy bank!</p>
+                    <div class="flex items-center text-sm text-pink-600">
+                        <span>Learn how it works</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Journey Visualization (hidden by default) -->
+        <div id="payment-journey" class="hidden bg-white rounded-xl shadow-xl p-6 mb-12">
+            <button onclick="hidePaymentJourney()" class="mb-6 flex items-center text-blue-600 hover:text-blue-800">
+                <i class="fas fa-arrow-left mr-2"></i> Back to payment types
+            </button>
+            
+            <div id="journey-content">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Daily Life Scenarios Section -->
+        <div class="bg-white rounded-xl shadow-xl p-8 mb-12">
+            <div class="flex items-center justify-center mb-6">
+                <img src="images/real-life-banner.png" alt="Real Life Examples Banner" class="w-48 h-50 mr-4">
+                <h2 class="text-2xl font-bold text-gray-800">Real Life Examples</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="images/allowance-kid.png" alt="Happy Kid with Allowance" class="w-16 h-16 mr-4">
+                        <h3 class="text-xl font-bold text-gray-800">Allowance Day 💰</h3>
+                    </div>
+                    <p class="text-gray-600">When your parents give you allowance, they might use different payment methods:</p>
+                    <ul class="mt-3 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Cash = Instant payment (like RTP)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Check = Mailed payment (like Check)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Bank transfer = Automatic payment (like ACH)</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-green-50 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="images/gaming-kid.png" alt="Kid Playing Video Games" class="w-16 h-16 mr-4">
+                        <h3 class="text-xl font-bold text-gray-800">Buying Games Online 🎮</h3>
+                    </div>
+                    <p class="text-gray-600">When you buy a new game for your console:</p>
+                    <ul class="mt-3 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Debit card = Takes money right from your account</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Gift card = Like a balance transfer between accounts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Parent's credit = They pay now, you pay back later</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fun Footer -->
+        <footer class="text-center py-8">
+            <div class="flex justify-center mb-4">
+                <img src="images/footer-celebration.png" alt="Celebration Characters" class="w-64 h-32">
+            </div>
+            <p class="text-lg text-gray-600">Great job learning about payments! 🎉</p>
+            <p class="text-sm text-gray-500 mt-2">Now you know how money moves around the world!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Complete payment method data with all 6 types
+        const paymentMethods = {
+            check: {
+                title: "Check Payment 📝",
+                analogy: "Like mailing a letter with money inside",
+                description: "A check is like writing a note that tells your bank to give money to someone else. It takes time to deliver and process, just like mailing a letter to your grandma!",
+                steps: [
+                    {
+                        title: "You Write the Check",
+                        description: "You fill out a paper check with the amount and who should receive the money. It's like writing a special letter!",
+                        icon: "fa-pen",
+                        color: "blue"
+                    },
+                    {
+                        title: "Mail or Give the Check",
+                        description: "You send the check through mail or hand it directly to the person/business. Just like sending a birthday card!",
+                        icon: "fa-envelope",
+                        color: "blue"
+                    },
+                    {
+                        title: "Recipient Deposits Check",
+                        description: "The person/business takes your check to their bank to deposit it. Like putting a treasure in a treasure chest!",
+                        icon: "fa-piggy-bank",
+                        color: "purple"
+                    },
+                    {
+                        title: "Banks Talk to Each Other",
+                        description: "The banks communicate to make sure you have enough money and then transfer it. Like banks having a phone conversation!",
+                        icon: "fa-comments",
+                        color: "green"
+                    },
+                    {
+                        title: "Money Moves (1-3 Days)",
+                        description: "It takes a few days for the money to actually move between accounts. Like waiting for your online order to arrive!",
+                        icon: "fa-clock",
+                        color: "yellow"
+                    }
+                ],
+                funFact: "The first checks were used in ancient Rome! But modern checks became popular in the 1700s. That's older than your great-great-great-grandparents! 🏛️"
+            },
+            ach: {
+                title: "ACH Payment 🤖",
+                analogy: "Like your school's lunch account auto-reload",
+                description: "ACH stands for Automated Clearing House. It's like setting up automatic payments that happen on a schedule, without you needing to do anything each time!",
+                steps: [
+                    {
+                        title: "You Set Up Payment",
+                        description: "You give permission (like signing up for auto-pay) to move money automatically. Like setting up your allowance to come every week!",
+                        icon: "fa-cog",
+                        color: "green"
+                    },
+                    {
+                        title: "Request is Sent",
+                        description: "The company you're paying sends a request to the ACH network. Like your school asking for lunch money!",
+                        icon: "fa-paper-plane",
+                        color: "green"
+                    },
+                    {
+                        title: "Banks Process in Batches",
+                        description: "Banks collect many ACH requests and process them together at set times. Like collecting all homework at once!",
+                        icon: "fa-boxes",
+                        color: "purple"
+                    },
+                    {
+                        title: "Money is Transferred",
+                        description: "The ACH network moves money between banks (usually takes 1-2 days). Like a school bus picking up kids from different stops!",
+                        icon: "fa-exchange-alt",
+                        color: "green"
+                    },
+                    {
+                        title: "Accounts are Updated",
+                        description: "Your bank account and the recipient's account show the transaction. Like getting a report card!",
+                        icon: "fa-check-circle",
+                        color: "green"
+                    }
+                ],
+                funFact: "ACH payments are much cheaper for businesses than credit card payments, which is why some companies offer discounts for ACH payments! It's like getting a bulk discount! 💰"
+            },
+            wire: {
+                title: "Wire Transfer ⚡",
+                analogy: "Like sending money by telegram - fast but costs more",
+                description: "A wire transfer is like sending money by special delivery. It's faster than regular mail (ACH or checks) but costs more money to send!",
+                steps: [
+                    {
+                        title: "You Request the Transfer",
+                        description: "You tell your bank who to send money to and how much. Like giving very specific directions!",
+                        icon: "fa-phone",
+                        color: "yellow"
+                    },
+                    {
+                        title: "Bank Verifies Funds",
+                        description: "Your bank checks that you have enough money to send. Like checking your piggy bank before buying something!",
+                        icon: "fa-search-dollar",
+                        color: "yellow"
+                    },
+                    {
+                        title: "Money is Sent Immediately",
+                        description: "Your bank sends the money through a secure network (like Fedwire). Like express mail!",
+                        icon: "fa-bolt",
+                        color: "yellow"
+                    },
+                    {
+                        title: "Recipient Bank Gets Funds",
+                        description: "The other bank receives the money, usually within hours. Like same-day delivery!",
+                        icon: "fa-university",
+                        color: "purple"
+                    },
+                    {
+                        title: "Recipient Can Use Money",
+                        description: "The person/business you sent money to can now use it right away. Like getting your allowance instantly!",
+                        icon: "fa-smile",
+                        color: "green"
+                    }
+                ],
+                funFact: "The first electronic wire transfer happened in 1872 using telegraph wires - that's where the name comes from! It was like texting with money! 📱"
+            },
+            rtp: {
+                title: "Real-Time Payments (RTP) 🚀",
+                analogy: "Like instant messaging for money",
+                description: "RTP is the newest way to send money. It's like texting - the money moves instantly, any time of day, even on weekends and holidays!",
+                steps: [
+                    {
+                        title: "You Initiate Payment",
+                        description: "You send money using your bank's app or website. Like sending a text message!",
+                        icon: "fa-mobile-alt",
+                        color: "red"
+                    },
+                    {
+                        title: "Instant Verification",
+                        description: "The system checks instantly that you have enough money. Like autocorrect checking your spelling!",
+                        icon: "fa-check",
+                        color: "green"
+                    },
+                    {
+                        title: "Money Moves in Seconds",
+                        description: "The RTP network transfers the money right away. Faster than sending a photo!",
+                        icon: "fa-rocket",
+                        color: "red"
+                    },
+                    {
+                        title: "Recipient Gets Notification",
+                        description: "The other person gets a message that money arrived. Like getting a notification on your phone!",
+                        icon: "fa-bell",
+                        color: "yellow"
+                    },
+                    {
+                        title: "Funds Available Immediately",
+                        description: "They can use the money right away - no waiting! Like downloading a game instantly!",
+                        icon: "fa-running",
+                        color: "green"
+                    }
+                ],
+                funFact: "RTP networks can process payments 24/7/365 - even at 3 AM on Christmas morning! It never sleeps! 🎄"
+            },
+            balance: {
+                title: "Balance Transfer 🎪",
+                analogy: "Like moving toys between your toy boxes",
+                description: "A balance transfer is when you move money you owe from one place to another. It's like moving toys from your messy toy box to a new, cleaner one!",
+                steps: [
+                    {
+                        title: "You Owe Money Somewhere",
+                        description: "Maybe you bought something with a store credit card. Like borrowing money from a friend!",
+                        icon: "fa-credit-card",
+                        color: "purple"
+                    },
+                    {
+                        title: "You Find a Better Option",
+                        description: "Another bank offers to take that debt with lower interest. Like finding a better deal!",
+                        icon: "fa-percentage",
+                        color: "blue"
+                    },
+                    {
+                        title: "You Request Transfer",
+                        description: "You ask the new bank to pay off the old debt. Like asking a new friend to help you!",
+                        icon: "fa-handshake",
+                        color: "green"
+                    },
+                    {
+                        title: "Banks Communicate",
+                        description: "The banks arrange the payment between them. Like your friends working it out together!",
+                        icon: "fa-comments",
+                        color: "purple"
+                    },
+                    {
+                        title: "Debt Moves to New Account",
+                        description: "Now you owe the new bank instead of the old one. Like moving your toys to a better box!",
+                        icon: "fa-random",
+                        color: "yellow"
+                    }
+                ],
+                funFact: "Balance transfers can help people save money on interest, but there's often a small fee (like 3-5%) to do the transfer. Like paying a small moving fee! 📦"
+            },
+            debit: {
+                title: "Debit Card Payment 🐷",
+                analogy: "Like using a magic card that takes money directly from your piggy bank",
+                description: "A debit card is linked directly to your bank account. When you use it, money comes out of your account right away, just like taking cash from your piggy bank!",
+                steps: [
+                    {
+                        title: "You Swipe/Tap/Insert Card",
+                        description: "You use your debit card to pay at a store or online. Like using a magic wand!",
+                        icon: "fa-credit-card",
+                        color: "pink"
+                    },
+                    {
+                        title: "Store Requests Payment",
+                        description: "The store's system asks your bank for the money. Like the store calling your piggy bank!",
+                        icon: "fa-store",
+                        color: "blue"
+                    },
+                    {
+                        title: "Bank Checks Balance",
+                        description: "Your bank checks if you have enough money. Like looking inside your piggy bank!",
+                        icon: "fa-search-dollar",
+                        color: "blue"
+                    },
+                    {
+                        title: "Money is Reserved",
+                        description: "The amount is temporarily held in your account. Like putting coins aside in your piggy bank!",
+                        icon: "fa-lock",
+                        color: "yellow"
+                    },
+                    {
+                        title: "Transaction Completes",
+                        description: "Usually within 1-3 days, the money fully moves to the store. Like the coins finally leaving your piggy bank!",
+                        icon: "fa-check-circle",
+                        color: "green"
+                    }
+                ],
+                funFact: "The first debit card was introduced in 1966 by Bank of Delaware, but they didn't become popular until the 1990s! That's when your parents were kids! 👶"
+            }
+        };
+
+        // Show payment journey visualization
+        function showPaymentJourney(paymentType) {
+            const journey = document.getElementById('payment-journey');
+            const content = document.getElementById('journey-content');
+            const method = paymentMethods[paymentType];
+            
+            if (!method) {
+                console.error('Payment method not found:', paymentType);
+                return;
+            }
+            
+            // Build the journey HTML
+            let html = `
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-${method.steps[0].color}-600 mb-2">${method.title}</h2>
+                    <p class="text-xl text-gray-600">${method.analogy}</p>
+                </div>
+                
+                <div class="bg-${method.steps[0].color}-50 rounded-xl p-6 mb-8 flex items-center">
+                    <img src="images/journey-${paymentType}-hero.png" alt="${method.title} Hero" class="w-24 h-24 mr-6">
+                    <p class="text-lg">${method.description}</p>
+                </div>
+                
+                <div class="relative">
+                    <!-- Timeline line -->
+                    <div class="absolute left-8 top-0 h-full w-1 bg-gray-200" style="margin-left: 28px;"></div>
+                    
+                    <!-- Steps -->
+                    <div class="space-y-10 pl-16">
+            `;
+            
+            method.steps.forEach((step, index) => {
+                html += `
+                    <div class="stage relative" style="transition-delay: ${index * 200}ms">
+                        <div class="absolute -left-14 top-0 flex items-center justify-center w-12 h-12 rounded-full bg-${step.color}-100 text-${step.color}-600 text-xl">
+                            <i class="fas ${step.icon}"></i>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">${index + 1}. ${step.title}</h3>
+                            <p class="text-gray-600">${step.description}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="mt-10 bg-yellow-50 border-l-4 border-yellow-400 p-4 flex items-start">
+                    <div class="flex-shrink-0">
+                        <img src="images/fun-fact-lightbulb.png" alt="Fun Fact Lightbulb" class="w-12 h-12">
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-bold text-gray-800">Fun Fact! 💡</h3>
+                        <p class="text-gray-600">${method.funFact}</p>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            journey.classList.remove('hidden');
+            
+            // Scroll to the journey section
+            journey.scrollIntoView({ behavior: 'smooth' });
+            
+            // Animate the steps in
+            setTimeout(() => {
+                const stages = document.querySelectorAll('.stage');
+                stages.forEach(stage => {
+                    stage.classList.add('active');
+                });
+            }, 300);
+        }
+        
+        // Hide payment journey visualization
+        function hidePaymentJourney() {
+            const journey = document.getElementById('payment-journey');
+            journey.classList.add('hidden');
+            
+            // Scroll back to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
