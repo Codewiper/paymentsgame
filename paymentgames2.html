@@ -94,6 +94,493 @@
       color: #444;
     }
   </style>
+  <script>
+    Absolutely, prajwal — here is a clean, reusable, professional master prompt specifically for regenerating the entire patent‑idea package we developed together.
+
+This prompt will reliably recreate:
+
+• Patent‑style claims
+• A full invention disclosure
+• Architecture description
+• Diagrams (Mermaid‑ready)
+• Edge cases
+• Mathematical formulas
+• Novelty arguments
+• Related‑work section (including the arXiv reference)
+
+
+You can paste this into Cursor or any coding assistant at any time to regenerate the full document.
+
+---
+
+⭐ MASTER PROMPT — SLA‑Aware Dynamic Scheduling Patent Specification
+
+Save this. Use it whenever you want to regenerate the full patent document.
+
+Copy/paste the following:
+
+---
+
+PROMPT START
+
+I want you to generate a complete, comprehensive, patent‑ready document describing the following invention:
+
+“SLA‑Aware Dynamic Queue Scheduling with Predictive Scaling and Pivot‑Based Monitoring.”
+
+The document must include:
+
+---
+
+1. Executive Summary
+
+A high‑level explanation of the invention and the problem it solves.
+
+---
+
+2. Problem Statement
+
+Describe the challenges of multi‑queue, SLA‑driven systems such as payment processing:
+
+• RTP, Wire, ACH, Checks
+• Different SLAs
+• Bursty traffic
+• Starvation
+• Inefficient static priority queues
+• Reactive cloud scaling
+• Sorting overhead
+
+
+---
+
+3. Core Invention Components
+
+Explain the four key innovations in detail:
+
+A. Dynamic Weights
+
+Include the formula:
+
+W_q = P_q + \alpha \cdot \frac{A_q}{S_q} + \beta \cdot L_q + \gamma \cdot R_q
+
+
+Where:
+
+• \(P_q\) = base priority
+• \(A_q\) = age of oldest message
+• \(S_q\) = SLA
+• \(L_q\) = queue length
+• \(R_q\) = arrival rate
+
+
+Explain how this creates a real‑time urgency score.
+
+---
+
+B. Dynamic Batch Sizing
+
+Include the formula:
+
+B_q = B_{base} + \delta \cdot W_q
+
+
+Explain how urgent queues get larger batches.
+
+---
+
+C. Predictive Scaling
+
+Include formulas:
+
+Time to clear:
+
+T^{clear}_q = \frac{L_q}{B_q \cdot \text{ProcessingRate}}
+
+
+Needed workers:
+
+\text{NeededWorkers}_q = \frac{L_q}{S_q \cdot \text{ProcessingRate}}
+
+
+Explain proactive scaling before SLA breach.
+
+---
+
+D. Pivot Monitoring
+
+Explain how the system avoids sorting by tracking only:
+
+• oldest timestamp
+• newest timestamp
+• queue length
+
+
+Tie this to the “Breaking the Sorting Barrier” paper.
+
+---
+
+4. Related Work
+
+Include a section referencing:
+
+A. Bernstein, M. Parter, M. Tsourakakis
+“Breaking the Sorting Barrier for Directed Single-Source Shortest Paths.”
+arXiv:2504.17033
+
+Explain how pivot‑based batching inspired this invention.
+
+---
+
+5. Detailed Architecture Description
+
+Describe all components:
+
+• Message Ingress
+• Queue Manager
+• Pivot Tracker
+• Dynamic Weight Engine
+• Batch Size Calculator
+• Predictive Scaling Engine
+• Worker Pool Manager
+• Processing Layer
+
+
+---
+
+6. Mermaid Architecture Diagram
+
+Provide a draw.io‑compatible Mermaid diagram with no formulas or special characters.
+
+---
+
+7. Edge Cases & Worked Examples
+
+Include detailed numerical examples for:
+
+• Normal balanced load
+• RTP flood
+• Wire SLA crisis
+• ACH spike
+• Checks flood
+
+
+Each example must include:
+
+• Inputs
+• Weight changes
+• Batch size changes
+• Time‑to‑clear
+• Scaling decisions
+
+
+---
+
+8. Novelty & Patentability Argument
+
+Explain why the invention is:
+
+• Novel
+• Non‑obvious
+• Useful
+• Technically grounded
+• Inspired by but distinct from graph algorithms
+
+
+---
+
+9. Patent‑Style Claims
+
+Generate:
+
+Independent Claim
+
+A method claim covering:
+
+• dynamic weights
+• dynamic batch sizing
+• predictive scaling
+• pivot monitoring
+
+
+Dependent Claims
+
+Cover:
+
+• formulas
+• queue types
+• cloud scaling
+• pivot tracking
+• batch sizing variations
+
+
+---
+
+10. Preferred Embodiment
+
+Describe the payments‑specific embodiment:
+
+• RTP
+• Wire
+• ACH
+• Checks
+
+
+---
+
+11. Optional Embodiments
+
+Describe how the invention generalizes to:
+
+• microservices
+• distributed systems
+• cloud autoscaling
+• workflow engines
+
+
+---
+
+12. Conclusion
+
+Summarize the invention’s impact.
+
+---
+
+Important Requirements
+
+• The document must be long, detailed, and professional.
+• Use clear headings and subheadings.
+• Include formulas in LaTeX.
+• Include diagrams in Mermaid.
+• Include all scenarios and edge cases.
+• Tone should match a real patent disclosure.
+• Do NOT include any code.
+
+
+PROMPT END
+
+---
+
+🎉 You now have a reusable master prompt for your patent
+
+Anytime you want to regenerate the full patent document, just paste this prompt into Cursor.
+
+If you want, I can also create:
+
+• A master prompt for generating the simulation code
+• A master prompt for generating the UI
+• A master prompt for generating the pitch deck
+
+
+Just tell me which one you want next.
+----
+Here’s a polished, reusable master prompt you can save and paste into Cursor (or any coding assistant) in the future to regenerate the entire requirement document, architecture, scenarios, and simulation details exactly as we designed.
+
+This prompt is written so you don’t need to remember anything — just paste it and you’ll get the full spec back.
+
+---
+
+⭐ MASTER PROMPT — SLA‑Aware Queue Scheduling Simulation App (Python + JavaScript)
+
+Save this. Use it anytime to regenerate the full requirements.
+
+Copy/paste the following:
+
+---
+
+PROMPT START
+
+I want you to generate a complete, comprehensive requirement document for building a web‑based simulation application that demonstrates the following invention:
+
+• SLA‑Aware Dynamic Scheduling
+• Dynamic Weights
+• Dynamic Batch Sizing
+• Predictive Scaling (proactive)
+• Pivot Monitoring (no sorting)
+
+
+The simulation should model four payment queues (RTP, Wire, ACH, Checks) and support multiple scenarios (normal load, RTP flood, Wire SLA crisis, ACH spike, Checks flood).
+
+Technology Requirements
+
+• Backend: Python (FastAPI or Flask)
+• Frontend: JavaScript + HTML + CSS (no React, no Redux, no frameworks)
+• Charts: Chart.js
+• Communication: fetch() polling or WebSocket
+• Simulation engine runs in Python
+
+
+What the requirement document must include
+
+Produce a fully detailed, production‑ready specification that covers:
+
+---
+
+1. Project Overview
+
+Explain the purpose of the simulation and what it demonstrates.
+
+2. High‑Level Architecture
+
+Describe the architecture using Python backend + JS frontend.
+Include a block diagram.
+
+3. Domain Model
+
+Define all queue attributes:
+
+• name
+• SLA
+• base priority
+• queue length
+• oldest timestamp
+• newest timestamp
+• arrival rate
+• dynamic weight
+• batch size
+• SLA risk
+• SLA breaches
+
+
+Define global simulation state:
+
+• current time
+• time step
+• processing rate per worker
+• total workers
+• event log
+
+
+4. Simulation Logic
+
+Describe in detail:
+
+• time step loop
+• arrival logic
+• pivot monitoring
+• dynamic weight formula
+• batch size formula
+• predictive scaling formula
+• worker allocation
+• message processing
+• SLA risk detection
+• event logging
+
+
+5. Scenarios
+
+Include detailed definitions for:
+
+• Normal balanced load
+• RTP flood
+• Wire SLA crisis
+• ACH spike
+• Checks flood
+
+
+Each scenario must specify:
+
+• initial queue lengths
+• arrival rates
+• SLA values
+• expected behavior
+
+
+6. API Requirements
+
+Define endpoints:
+
+• GET /state
+• POST /start
+• POST /pause
+• POST /reset
+• POST /scenario
+• POST /step
+
+
+7. Frontend Requirements
+
+Describe:
+
+• layout
+• controls
+• scenario selector
+• speed control
+• queue configuration panel
+• global configuration panel
+
+
+8. Visualization Requirements
+
+Define all charts:
+
+• queue length over time
+• dynamic weight over time
+• workers over time
+• SLA risk markers
+
+
+Define queue status cards:
+
+• queue length
+• oldest age
+• arrival rate
+• dynamic weight
+• batch size
+• worker share
+• time‑to‑clear
+• SLA status
+
+
+Define event log formatting.
+
+9. Styling Requirements
+
+Clean UI, optional Bootstrap/Tailwind.
+
+10. Deliverables
+
+List all files the app should contain:
+
+• Python backend files
+• JS frontend files
+• HTML/CSS files
+
+
+11. Stretch Goals
+
+Optional enhancements.
+
+---
+
+Important
+
+The output must be:
+
+• Extremely detailed
+• Ready for implementation
+• Consistent with the SLA scheduling invention
+• Written as a professional software requirement document
+• No React, Redux, or advanced JS frameworks
+
+
+PROMPT END
+
+---
+
+🎉 You now have a reusable master prompt
+
+Anytime you want to regenerate the full requirement document, just paste this prompt into Cursor or any coding assistant.
+
+If you want, I can also create:
+
+• A master prompt for generating the simulation code
+• A master prompt for generating the UI
+• A master prompt for generating the patent claims
+
+
+Just tell me what you want next.
+  
+  
+  </script>
 </head>
 <body>
 
